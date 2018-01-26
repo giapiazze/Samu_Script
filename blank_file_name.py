@@ -6,15 +6,15 @@ from os.path import isfile, isdir, join
 
 
 def run(folder, recursive):
-    """
-    Function to execute the search
-    :param folder: The folder to search in
-    :type folder: string
-    :param recursive: Recursive search
-    :type folder: boolean
-    :return: file name found
-    :rtype: array
-    """
+    # """
+    # Function to execute the search
+    # :param folder: The folder to search in
+    # :type folder: string
+    # :param recursive: Recursive search
+    # :type folder: boolean
+    # :return: file name found
+    # :rtype: array
+    # """
     result = []
 
     if listdir(folder):
@@ -61,4 +61,3 @@ if "__main__" == __name__:
     for x in array_result:
         print("File: ", x[0], " in: ", x[1])
         print("\n")
-    a = 3
