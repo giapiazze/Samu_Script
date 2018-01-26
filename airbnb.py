@@ -49,12 +49,12 @@ class Offer(object):
     pass
 
 
-houses = Table('houses', metadata, autoload=True)
-# offers = Table('offers', metadata, autoload=True)
+houses_tbl = Table('houses', metadata, autoload=True)
+# offers_tbl = Table('offers', metadata, autoload=True)
 
 # Table Mapper
-house_mapper = mapper(House, houses)
-# offer_mapper = mapper(Offer, offers)
+house_mapper = mapper(House, houses_tbl)
+# offer_mapper = mapper(Offer, offers_tbl)
 
 
 # Main module to read start option parameter
