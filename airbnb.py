@@ -1,5 +1,6 @@
 import getopt
 import sys
+import os
 import time
 import datetime
 import ConfigParser
@@ -11,7 +12,7 @@ from sqlalchemy.orm import sessionmaker, mapper
 
 # Configuration file
 config = ConfigParser.ConfigParser()
-config.read('Airbnb/db_config.cfg')
+config.read(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'Airbnb', 'db_config.cfg'))
 
 # Configuration DB
 pool_size = config.getint('DATABASE', 'pool_size')
@@ -48,12 +49,12 @@ class Offer(object):
     pass
 
 
-houses = Table('Houses', metadata, autoload=True)
-offers = Table('Offers', metadata, autoload=True)
+houses = Table('houses', metadata, autoload=True)
+# offers = Table('offers', metadata, autoload=True)
 
 # Table Mapper
 house_mapper = mapper(House, houses)
-offer_mapper = mapper(Offer, offers)
+# offer_mapper = mapper(Offer, offers)
 
 
 # Main module to read start option parameter
@@ -78,4 +79,8 @@ if "__main__" == __name__:
             if arg != 1 or arg == 0:
                 recur = False
 
-    array_result = run()
+    s = DBSession()
+    houses = s.query(House).all()
+    print(houses)
+
+    sys.exit(1)
