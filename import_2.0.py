@@ -20,7 +20,7 @@ if "__main__" == __name__:
     workbook = xlrd.open_workbook('per_importazione.xlsx')
     # AuthHousesUsers first
     worksheet = workbook.sheet_by_index(2)
-    for r in range(1, 784):
+    for r in range(1, 394):
         row = worksheet.row(r)
 
         houseId = int(row[1].value)

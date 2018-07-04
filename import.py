@@ -17,7 +17,7 @@ if "__main__" == __name__:
     date = datetime.datetime.now()
     s = Session()
 
-    workbook = xlrd.open_workbook('anagrafica_alleanza.xlsx')
+    workbook = xlrd.open_workbook('per_importazione.xlsx')
     # EntyHouses first
     worksheet = workbook.sheet_by_index(0)
     for r in range(1, 783):
