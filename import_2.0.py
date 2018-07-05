@@ -6,7 +6,6 @@ import xlrd
 # DB SQLAlchemy
 from import_db import Session, Base
 from import_models import AuthHousesUsers
-from import_exec import http_analysis
 
 
 # Main module to read start option parameter
