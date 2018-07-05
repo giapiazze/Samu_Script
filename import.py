@@ -6,7 +6,6 @@ import xlrd
 # DB SQLAlchemy
 from import_db import Session, Base
 from import_models import EntyHouse, CntrMunicipality, MeasMeter, MeasHousesMeters
-from import_exec import http_analysis
 
 
 # Main module to read start option parameter
@@ -20,7 +19,7 @@ if "__main__" == __name__:
     workbook = xlrd.open_workbook('per_importazione.xlsx')
     # EntyHouses first
     worksheet = workbook.sheet_by_index(0)
-    for r in range(1, 783):
+    for r in range(1, worksheet.nrows):
         row = worksheet.row(r)
         id = int(row[0].value)
         print(r, id)
@@ -75,7 +74,7 @@ if "__main__" == __name__:
             s.add(house)
 
     worksheet = workbook.sheet_by_index(1)
-    for r in range(1, 854):
+    for r in range(1, worksheet.nrows):
         row = worksheet.row(r)
         isActive = True
         startDate = datetime.datetime(2017, 1, 1, 12, 0, 0, 0)
