@@ -1,13 +1,31 @@
 import getopt
 import sys
 import os
+import re
 from os import listdir
 from os.path import isfile, isdir, join
 import xml.etree.ElementTree as ET
 
 
+def find_parse(root, word_inside):
+    for child in root:
+        print(child.tag)
+        print(child.text)
+        print(child.attrib)
+        attrib = child.attrib
+        for a in list(attrib):
+            if re.search(word_inside, attrib[a]):
+                return True
+
+        if find_parse(child, word_inside):
+            root.remove(child)
+            break
+
+    return False
+
+
 # Function to parse xml file in folder recursively
-def parse(folder, recursive, word):
+def parse(folder, recursive, find_word):
     # """
     # Function to execute the search
     # :param folder: The folder to search in
@@ -20,21 +38,21 @@ def parse(folder, recursive, word):
     result = []
 
     if listdir(folder):
-        only_files = [f for f in listdir(folder) if isfile(join(folder, f))]
+        w = listdir(folder)
+
+        only_files = [f for f in listdir(folder) if (isfile(join(folder, f)) and f.endswith('.px'))]
         only_folders = [d for d in listdir(folder) if isdir(join(folder, d))]
 
         if recursive:
             for d in only_folders:
                 destination = folder + "/" + d
-                result += parse(destination, recursive, word)
+                result += parse(destination, recursive, find_word)
 
         for f in only_files:
             tree = ET.parse(f)
             root = tree.getroot()
-            for child in root:
-                print(child.tag)       # la proprieta' tag fornisce il nome dell'elemento, incluso l'eventuale namespace
-                print(child.text)      # la proprieta' text fornisce il contenuto testuale dell'elemento
-                print(child.attrib)    # ovviamente, possiamo ottenere gli attributi di ogni elemento figlio
+            find_parse(root, find_word)
+            tree.write(f)
 
     return result
 
@@ -46,8 +64,8 @@ def parse(folder, recursive, word):
 if "__main__" == __name__:
     # Default params options
     path = os.getcwd()
-    recur = True
-    word = ''
+    recur = False
+    word = 'Amelia'
 
     try:
         opts, args = getopt.getopt(sys.argv[1:], "hd:r:w", ["directory", "grammar="])
