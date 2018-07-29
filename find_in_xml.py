@@ -63,7 +63,7 @@ if "__main__" == __name__:
     word = 'Amelia'
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "hd:r:w", ["directory", "grammar="])
+        opts, args = getopt.getopt(sys.argv[1:], "hd:r:w:", ["directory", "grammar="])
     except getopt.GetoptError as err:
         sys.exit(2)
 
@@ -71,14 +71,17 @@ if "__main__" == __name__:
         if opt in ("-h", "--help"):
             sys.exit()
         elif opt in ("-d", "--directory"):
-            if arg != 0 or arg is not None:
+            print('D: ', arg)
+            if arg is not None:
                 path = arg
         elif opt in ("-w", "--word"):
-            if arg != 1 or arg == 0:
+            print('W: ', arg)
+            if arg is not None:
                 word = arg
         elif opt in ("-r", "--recursive"):
-            if arg != 2 or arg == 0:
-                recur = False
+            print('R: ', arg)
+            if arg is not None:
+                recur = arg
 
     array_result = parse(path, recur, word)
     for x in array_result:
