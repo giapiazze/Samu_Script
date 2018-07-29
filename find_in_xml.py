@@ -9,9 +9,6 @@ import xml.etree.ElementTree as ET
 
 def find_parse(root, word_inside):
     for child in root:
-        print(child.tag)
-        print(child.text)
-        print(child.attrib)
         attrib = child.attrib
         for a in list(attrib):
             if re.search(word_inside, attrib[a]):
@@ -38,8 +35,6 @@ def parse(folder, recursive, find_word):
     result = []
 
     if listdir(folder):
-        w = listdir(folder)
-
         only_files = [f for f in listdir(folder) if (isfile(join(folder, f)) and f.endswith('.px'))]
         only_folders = [d for d in listdir(folder) if isdir(join(folder, d))]
 
