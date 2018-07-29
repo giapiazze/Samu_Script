@@ -60,7 +60,7 @@ if "__main__" == __name__:
     # Default params options
     path = os.getcwd()
     recur = False
-    word = 'Amelia'
+    word = 'Xyaddsksfdpofs'
 
     try:
         opts, args = getopt.getopt(sys.argv[1:], "hd:r:w:", ["directory", "grammar="])
