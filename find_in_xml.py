@@ -12,13 +12,10 @@ def find_parse(root, word_inside):
         attrib = child.attrib
         for a in list(attrib):
             if re.search(word_inside, attrib[a]):
-                return True
+                root.remove(child)
+                break
 
-        if find_parse(child, word_inside):
-            root.remove(child)
-            break
-
-    return False
+            find_parse(child, word_inside)
 
 
 # Function to parse xml file in folder recursively
@@ -60,7 +57,7 @@ if "__main__" == __name__:
     # Default params options
     path = os.getcwd()
     recur = False
-    word = 'Xyaddsksfdpofs'
+    word = 'PAM'
 
     try:
         opts, args = getopt.getopt(sys.argv[1:], "hd:r:w:", ["directory", "grammar="])
