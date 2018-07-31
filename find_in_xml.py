@@ -7,15 +7,41 @@ from os.path import isfile, isdir, join
 import xml.etree.ElementTree as ET
 
 
-def find_parse(root, word_inside):
+class Single:
+    def __init__(self, file, count):
+        self.file = file
+        self.count = count
+
+
+class Return:
+    def __init__(self, condition, count):
+        self.condition = condition
+        self.count = count
+
+
+def find_parse(root, word_inside, count):
     for child in root:
         attrib = child.attrib
+        find = False
         for a in list(attrib):
             if re.search(word_inside, attrib[a]):
-                root.remove(child)
-                break
+                count += 1
+                if child.tag == 'BoundLabelBinding':
+                    ret = Return(True, count)
+                    return ret
+                else:
+                    find = True
 
-            find_parse(child, word_inside)
+        if find:
+            root.remove(child)
+        else:
+            pippo = find_parse(child, word_inside, count)
+            if pippo.condition:
+                root.remove(child)
+            count = pippo.count
+
+    ret = Return(False, count)
+    return ret
 
 
 # Function to parse xml file in folder recursively
@@ -41,10 +67,12 @@ def parse(folder, recursive, find_word):
                 result += parse(destination, recursive, find_word)
 
         for f in only_files:
+            single = Single(f, 0)
             tree = ET.parse(f)
             root = tree.getroot()
-            find_parse(root, find_word)
+            single.count = find_parse(root, find_word, 0).count
             tree.write(f)
+            result.append(single)
 
     return result
 
@@ -80,7 +108,12 @@ if "__main__" == __name__:
             if arg is not None:
                 recur = arg
 
-    array_result = parse(path, recur, word)
-    for x in array_result:
-        print("File: ", x[0], " in: ", x[1])
-        print("\n")
+    loop = True
+    while loop:
+        loop = False
+        array_result = parse(path, recur, word)
+        for x in array_result:
+            if x.count > 0:
+                loop = True
+            print("File: ", x.file, " count: ", x.count)
+            print("\n")
