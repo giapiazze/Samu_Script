@@ -16,7 +16,7 @@ if "__main__" == __name__:
     date = datetime.datetime.now()
     s = Session()
 
-    workbook = xlrd.open_workbook('per_importazione.xlsx')
+    workbook = xlrd.open_workbook('da_importare.xlsx')
     # EntyHouses first
     worksheet = workbook.sheet_by_index(0)
     for r in range(1, worksheet.nrows):
@@ -24,42 +24,39 @@ if "__main__" == __name__:
         id = int(row[0].value)
         print(r, id)
         if id >= 325:
-            code = row[2].value
-            displayName = row[3].value
-            name = row[1].value
+            code = row[1].value
+            displayName = row[2].value
+            name = row[3].value
             vatCode = None
             cf = None
             email = None
             isActive = True
-            street = row[4].value
-            provinceId = None
-            municipalityId = None
-            for instance in s.query(CntrMunicipality).filter(CntrMunicipality.name == row[6].value):
-                provinceId = instance.provinceId
-                municipalityId = instance.id
-            zip = str(int(row[7].value))
+            street = row[8].value
+            provinceId = row[9].value
+            municipalityId = row[10].value
+            zip = row[11].value
             locality = None
-            x = float(row[8].value)
-            y = float(row[9].value)
-            h = int(row[10].value)
+            x = float(row[13].value)
+            y = float(row[14].value)
+            h = int(row[15].value)
 
-            tmp = row[12].value
-            if tmp == '':
+            tmp = row[16].value
+            if tmp == '' or tmp == 'NULL':
                 houseId = None
             else:
-                houseId = int(row[12].value)
+                houseId = int(tmp)
 
-            tmp = row[11].value
-            if tmp == '':
+            tmp = row[17].value
+            if tmp == '' or tmp == 'NULL':
                 categoryId = None
             else:
-                categoryId = int(row[11].value)
+                categoryId = int(tmp)
 
-            tmp = row[13].value
-            if tmp == '':
+            tmp = row[18].value
+            if tmp == '' or tmp == 'NULL':
                 kindId = None
             else:
-                kindId = int(row[13].value)
+                kindId = int(tmp)
 
             date = datetime.datetime.now()
             createdAt = date
@@ -79,26 +76,26 @@ if "__main__" == __name__:
         isActive = True
         startDate = datetime.datetime(2017, 1, 1, 12, 0, 0, 0)
         endDate = None
-        houseId = int(row[6].value)
+        houseId = int(row[12].value)
         housesMeters = MeasHousesMeters(None, houseId, None, isActive, startDate, endDate)
 
         id = int(row[0].value)
-        regNumber = row[1].value
+        regNumber = str(row[1].value)
         x = None
         y = None
-        unit = row[2].value
-        sortId = int(row[3].value)
-        tmp = row[4].value
-        if tmp == '':
+        unit = row[4].value
+        sortId = int(row[5].value)
+        tmp = row[6].value
+        if tmp == '' or tmp == 'NULL':
             supplierId = None
         else:
-            supplierId = int(row[4].value)
+            supplierId = int(row[6].value)
 
-        tmp = row[5].value
-        if tmp == '':
+        tmp = row[7].value
+        if tmp == '' or tmp == 'NULL':
             utilizationId = None
         else:
-            utilizationId = int(row[5].value)
+            utilizationId = int(row[7].value)
         date = datetime.datetime.now()
         createdAt = date
         updatedAt = date
